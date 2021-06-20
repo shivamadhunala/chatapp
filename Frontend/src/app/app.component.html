@@ -1,0 +1,127 @@
+<div class="container-fluid" *ngIf="showScreen">
+
+  <div class="row">
+
+    <div class="col-md-4">
+
+      <div class="user-list-card">
+        <div class="user-card" [ngClass]="user?.phone === selectedUser?.phone && 'active'" *ngFor="let user of userList"
+          (click)="selectUserHandler(user?.phone)">
+
+          <img [class.x]="user?.isOnline" src="./../assets/default1.jpeg" [alt]="user?.name" class="avatar" />
+          <p class="username">{{user?.name}}</p>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-8">
+
+      <div class="chat-container">
+        <ng-container *ngIf="selectedUser">
+          <div class="chat-header">
+
+            <img src="./../assets/default1.jpeg" [alt]="selectedUser?.name" class="avatar" />
+            <p class="username">{{selectedUser?.name}}</p>
+
+          </div>
+
+          <div class="chat-body">
+            <div *ngFor="let item of messageArray" [ngClass]="item?.from === currentUser?.phone && 'same-user'">
+              <p class="message-container ">{{item?.message}}
+                <span *ngIf="!item?.deliveredAt" id="status-n"> &#9830; </span>
+                <span *ngIf="((!item?.isRead) && (item?.deliveredAt))" id="status-d">&#9830; </span>
+                <span *ngIf="item?.isRead" id="status-s">&#9830; </span>
+              </p>
+            </div>
+          </div>
+        </ng-container>
+
+
+
+
+      </div>
+
+
+
+      <div class="row">
+        <div class="col-md-10">
+          <div class="form-group">
+            <input style="padding: 10px;" type="text" placeholder="Type a message" class="form-control"
+              [(ngModel)]="messageText" (keyup)="$event.keyCode === 13 && sendMessage()" />
+
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="text-center align-self-center">
+            <button class="btn btn-primary btn-success" (click)="sendMessage()"><img
+                src="https://image.flaticon.com/icons/png/512/724/724954.png" alt="" width="25px" height="25px">
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+    </div>
+
+  </div>
+
+  <!-- </div> -->
+
+  <!-- <div class="chat-footer "> -->
+
+  <!-- <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-6">
+      <div class="form-group mb-0">
+        <input type="text" placeholder="Type a message" class="form-control" [(ngModel)]="messageText"
+          (keyup)="$event.keyCode === 13 && sendMessage()" />
+      </div>
+    </div>
+
+    <div class="col-md-2 text-center align-self-center">
+      <button class="btn btn-primary btn-sm px-3" (click)="sendMessage()">Send
+      </button>
+    </div>
+  </div> -->
+
+</div>
+
+
+<!-- user registration -->
+
+<ng-template #popup let-d="dismiss">
+
+  <div class="modal-header">
+    <h4 class="modal-title">Login</h4>
+  </div>
+
+  <div class="modal-body">
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="form-group">
+          <input type="email" placeholder="Enter your phone number" class="form-control" [(ngModel)]="phone" />
+
+        </div>
+
+        <div class="form-group">
+
+          <input type="text" placeholder="Enter your name" class="form-control" [(ngModel)]="name" />
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-primary" (click)="login(d)">Login</button>
+  </div>
+
+</ng-template>
